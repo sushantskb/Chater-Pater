@@ -2,8 +2,9 @@ import { FaSignOutAlt } from "react-icons/fa";
 
 const LogoutButton = () => {
   return (
-    <button className="bg-gradient-to-r flex items-center justify-center from-red-600 to-blue-500  p-2 rounded-full mt-auto">
-      <FaSignOutAlt />
+    <button className="flex items-center justify-center w-full p-2 bg-red-600 rounded-full mt-4">
+      <FaSignOutAlt className="mr-2" />
+      Logout
     </button>
   );
 };

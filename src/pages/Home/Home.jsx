@@ -1,11 +1,11 @@
-import Sidebar from '../../components/SideBar/Sidebar'
+import Sidebar from "../../components/SideBar/Sidebar";
 
 const Home = () => {
   return (
-    <div>
-        <Sidebar />
+    <div className="flex flex-col sm:flex-row h-screen">
+      <Sidebar />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

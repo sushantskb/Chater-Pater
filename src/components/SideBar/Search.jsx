@@ -1,6 +1,6 @@
 import { FaSearch } from "react-icons/fa";
 
-// eslint-disable-next-line react/prop-types
+/* eslint-disable react/prop-types */
 const Search = ({ searchActive, handleSearchClick }) => {
   return (
     <div className="mb-4">

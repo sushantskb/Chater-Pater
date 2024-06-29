@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
-import Search from "./Search";
 import Conversations from "./Conversations";
 import LogoutButton from "./LogoutButton";
+import Search from "./Search";
 
 const Sidebar = () => {
   const [searchActive, setSearchActive] = useState(false);
@@ -17,27 +18,21 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-800 text-white p-4 w-full sm:w-1/4">
+    <div className="flex flex-col h-full w-full sm:w-1/4 bg-gray-800 text-white p-4">
       <div className="flex justify-between items-center mb-4">
-        <div className="bg-gradient-to-r from-purple-700 to-blue-600 text-2xl font-bold bg-clip-text text-transparent">ChaterPater</div>
-        <img
-          src="https://e7.pngegg.com/pngimages/777/788/png-clipart-logo-cpanel-brand-graphics-computer-icons-cp-logo-emblem-text.png"
-          alt="Logo"
-          className="h-8 w-8"
-          style={{mixBlendMode: "multiply", backgroundColor: "purple"}}
-        />
+        <div className="bg-gradient-to-r from-red-700 to-blue-500 bg-clip-text text-transparent text-2xl font-bold">ChaterPater</div>
+        <img src="/path/to/logo.png" alt="Logo" className="h-8 w-8" />
         <button className="sm:hidden" onClick={handleMenuToggle}>
           <FaBars />
         </button>
       </div>
-      <div className={`sm:flex ${menuOpen ? "flex" : "hidden"} flex-col`}>
-        <Search
-          searchActive={searchActive}
-          handleSearchClick={handleSearchClick}
-        />
+      <div className={`sm:flex ${menuOpen ? "flex" : "hidden"} flex-col flex-1`}>
+        <Search searchActive={searchActive} handleSearchClick={handleSearchClick} />
         <Conversations />
+        <div className="mt-auto">
+          <LogoutButton />
+        </div>
       </div>
-        <LogoutButton />
     </div>
   );
 };
