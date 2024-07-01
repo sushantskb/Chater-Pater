@@ -3,37 +3,48 @@ import bcrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
 
 export const signup = async (req, res) => {
-  const { username, fullName, password, profilePic, confirmPassword, gender } =
-    req.body;
+  try {
+    const {
+      username,
+      fullName,
+      password,
+      profilePic,
+      confirmPassword,
+      gender,
+    } = req.body;
 
-  if (password !== confirmPassword) {
-    return res.status(400).json({ error: "Password don't match" });
-  }
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: "Password don't match" });
+    }
 
-  const user = await User.findOne({ username });
+    const user = await User.findOne({ username });
 
-  if (user) {
-    return res.status(400).json({ error: "Username already exists" });
-  }
+    if (user) {
+      return res.status(400).json({ error: "Username already exists" });
+    }
 
-  // hashing password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
+    // hashing password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-  const newUser = new User({
-    fullName,
-    username,
-    profilePic,
-    password: hashedPassword,
-    gender,
-  });
+    const newUser = new User({
+      fullName,
+      username,
+      profilePic,
+      password: hashedPassword,
+      gender,
+    });
 
-  if (newUser) {
-    // generate JWT token here
-    generateTokenAndSetCookie(newUser._id, res);
-    await newUser.save();
-    const { password: _, ...filteredData } = newUser._doc;
-    return res.status(201).json(filteredData);
+    if (newUser) {
+      // generate JWT token here
+      generateTokenAndSetCookie(newUser._id, res);
+      await newUser.save();
+      const { password: _, ...filteredData } = newUser._doc;
+      return res.status(201).json(filteredData);
+    }
+  } catch (error) {
+    console.log("Error", error);
+    return res.status(500).json("Internal server error");
   }
 };
 
@@ -58,11 +69,11 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-    try {
-        res.cookie("jwt", "", { maxAge: 0 });
-        res.status(200).json({message: "Logged out successfully"})
-    } catch (error) {
-        console.log("Error in logout controller", error.message);
-        res.status(500).json({error: "Internal Server Error"})
-    }
-}
+  try {
+    res.cookie("jwt", "", { maxAge: 0 });
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.log("Error in logout controller", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
