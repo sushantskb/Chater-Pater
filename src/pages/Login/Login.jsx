@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -25,6 +26,17 @@ const Login = () => {
               placeholder="Enter your password"
             />
           </div>
+          <div className="flex flex-col">
+            <label htmlFor="confirmPassword" className="text-sm font-semibold text-gray-300">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              className="input input-bordered text-white bg-gray-700 placeholder-gray-400"
+              placeholder="Confirm your password"
+            />
+          </div>
+          <p>{"Don't"} have an account ? <Link to="/signup"><span className="text-secondary">Login</span></Link></p>
           <button type="submit" className="btn bg-gradient-to-r from-purple-600 to-blue-500 text-white py-2 rounded-md hover:from-purple-700 hover:to-blue-600 transition duration-300">Login</button>
         </form>
       </div>
