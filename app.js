@@ -15,6 +15,12 @@ app.get("/", (req, res) => {
   res.send("<h1>App is healthy</h1>");
 });
 
+// keep alive mechanism
+// Create a keep-alive endpoint
+app.get("/keep-alive", (req, res) => {
+  res.status(200).send("Server is alive");
+});
+
 // middlewares
 app.use(express.json());
 app.use(cookieParser());
@@ -23,7 +29,23 @@ app.use("/api/users", userRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/groups", groupMessageRouter);
 
-app.listen(PORT, () => {
+app.listen(PORT, (err) => {
   connectToMongoDB();
-  console.log(`Server is running on port http://localhost:${PORT}`);
+  if (err) {
+    console.log("Error in starting Node.js server");
+  } else {
+    console.log(`Server is running on port ${PORT}`);
+
+    // Set up keep-alive ping
+    setInterval(() => {
+      axios
+        .get(`http://localhost:${PORT}/keep-alive`)
+        .then((response) => {
+          console.log("Keep-alive ping successful:", response.data);
+        })
+        .catch((error) => {
+          console.error("Keep-alive ping failed:", error);
+        });
+    }, 300000); // Ping every 5 minutes
+  }
 });
