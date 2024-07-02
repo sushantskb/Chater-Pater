@@ -3,41 +3,6 @@ import Conversation from "./Conversation";
 
 const Conversations = () => {
   const { loading, conversations } = useGetConversations();
-  // const conversations = [
-  //   {
-  //     fullName: "user 1",
-  //   },
-  //   {
-  //     fullName: "user 1",
-  //   },
-  //   {
-  //     fullName: "user 1",
-  //   },
-  //   {
-  //     fullName: "user 1",
-  //   },
-  //   {
-  //     fullName: "user 1",
-  //   },
-  //   {
-  //     fullName: "user 1",
-  //   },
-  //   {
-  //     fullName: "user 1",
-  //   },
-  //   {
-  //     fullName: "user 1",
-  //   },
-  //   {
-  //     fullName: "user 1",
-  //   },
-  //   {
-  //     fullName: "user 1",
-  //   },
-  //   {
-  //     fullName: "user 1",
-  //   },
-  // ];
   return (
     <div className="flex flex-col space-y-4 overflow-y-auto">
       {conversations.map((conversation, index) => (
@@ -47,9 +12,9 @@ const Conversations = () => {
           lastIndex={index === conversation.length - 1}
         />
       ))}
-
+      
       {loading ? (
-        <span className="loading loading-bars loading-md"></span>
+        <span className="loading loading-infinity loading-lg bg-primary m-auto"></span>
       ) : null}
     </div>
   );

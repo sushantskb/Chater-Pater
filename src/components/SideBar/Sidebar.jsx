@@ -32,7 +32,7 @@ const Sidebar = () => {
           <FaBars />
         </button>
       </div>
-      <div className={`sm:flex ${menuOpen ? "flex" : "hidden"} flex-col`}>
+      <div className={`sm:flex ${menuOpen ? "flex" : "hidden"} flex-col h-full overflow-hidden`}>
         <Search
           searchActive={searchActive}
           handleSearchClick={handleSearchClick}
@@ -44,7 +44,9 @@ const Sidebar = () => {
           <FaPlus className="mr-2" />
           Create Group
         </button>
-        <Conversations />
+        <div className="flex-1 overflow-y-auto">
+          <Conversations />
+        </div>
         <div className="mt-auto">
           <LogoutButton />
         </div>
