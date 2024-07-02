@@ -8,7 +8,7 @@ import groupMessageRouter from "./routes/group.routes.js";
 import connectToMongoDB from "./db/connectToMongoDB.js";
 import axios from "axios";
 
-const app = express();
+import {app, server} from "./socket/socket.js"
 dotenv.config();
 const PORT = process.env.PORT || 6969;
 
@@ -30,7 +30,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/groups", groupMessageRouter);
 
-app.listen(PORT, (err) => {
+server.listen(PORT, (err) => {
   connectToMongoDB();
   if (err) {
     console.log("Error in starting Node.js server");
