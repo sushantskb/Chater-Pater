@@ -12,7 +12,7 @@ const Messages = () => {
     });
   }, [messages]);
   return (
-    <div className="flex flex-col space-y-4 p-4 bg-gray-800 rounded-lg">
+    <div className="flex flex-col space-y-4 p-4 bg-gray-800 bg-opacity-0 rounded-lg">
       {
         !loading && 
         messages.length > 0 && 
