@@ -6,6 +6,7 @@ import userRoutes from "./routes/user.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import groupMessageRouter from "./routes/group.routes.js";
 import connectToMongoDB from "./db/connectToMongoDB.js";
+import axios from "axios";
 
 const app = express();
 dotenv.config();
