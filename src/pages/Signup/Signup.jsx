@@ -3,6 +3,7 @@
 import { useState } from "react";
 import GenderCheckBox from "./GenderCheckBox";
 import useSignup from "../../hooks/useSignup";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const [inputs, setInputs] = useState({
@@ -14,7 +15,7 @@ const Signup = () => {
     profilePic: "",
   });
 
-  const { signup } = useSignup();
+  const { loading, signup } = useSignup();
 
   const handleCheckbox = (gender) => {
     setInputs({ ...inputs, gender });
@@ -130,11 +131,17 @@ const Signup = () => {
             selectedGender={inputs.gender}
           />
 
+          <p>Already have an account ? <Link to="/login"><span className="text-secondary">Login</span></Link></p>
+
           <button
             type="submit"
-            className="btn bg-gradient-to-r from-purple-600 to-blue-500 text-white py-2 rounded-md hover:from-purple-700 hover:to-blue-600 transition duration-300"
+            className="btn bg-gradient-to-r from-purple-600 to-blue-500 text-white py-2 rounded-md hover:from-blue-700 hover:to-purple-600 transition duration-300"
           >
-            Sign Up
+            {!loading ? (
+              "Sign Up"
+            ) : (
+              <span className="loading loading-ring loading-xs"></span>
+            )}
           </button>
         </form>
       </div>
