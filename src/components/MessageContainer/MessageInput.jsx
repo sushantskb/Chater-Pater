@@ -1,31 +1,39 @@
 import { useState } from "react";
+import useSendMessage from "../../hooks/useSendMessage";
 
 const MessageInput = () => {
   const [message, setMessage] = useState("");
+  const { loading, sendMessage } = useSendMessage();
 
-  const handleInputChange = (e) => {
-    setMessage(e.target.value);
-  };
-
-  const handleSendMessage = () => {
-    // Add logic to send the message
-    console.log("Sending message:", message);
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!message) {
+      return;
+    }
+    await sendMessage(message);
     setMessage("");
   };
 
   return (
-    <div className="flex items-center mt-4">
-      <input
-        type="text"
-        value={message}
-        onChange={handleInputChange}
-        placeholder="Type your message..."
-        className="input input-bordered flex-grow bg-gray-700 text-white placeholder-gray-400"
-      />
-      <button onClick={handleSendMessage} className="btn btn-primary btn-outline ml-2">
-        Send
-      </button>
-    </div>
+    <form onClick={handleSendMessage}>
+      <div className="flex items-center mt-4">
+        <input
+          type="text"
+          name="message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Type your message..."
+          className="input input-bordered flex-grow bg-gray-700 text-white placeholder-gray-400"
+        />
+        <button type="submit" className="btn btn-primary btn-outline ml-2">
+          {loading ? (
+            <span className="loading loading-dots loading-xs btn-primary"></span>
+          ) : (
+            "Send"
+          )}
+        </button>
+      </div>
+    </form>
   );
 };
 
