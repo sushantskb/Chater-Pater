@@ -10,7 +10,13 @@ const useListenMessages = () => {
     socket?.on("newMessage", (newMessage) => {
       setMessages([...messages, newMessage]);
     });
-    return () => socket?.off("newMessages");
+    socket?.on("receiverGroupMessages", (newMessage) => {
+      setMessages([...messages, newMessage]);
+    });
+    return () => {
+      socket?.off("newMessages");
+      socket?.off("receiverGroupMessages");
+    };
   }, [socket, setMessages, messages]);
 };
 
