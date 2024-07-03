@@ -5,11 +5,15 @@ import Conversations from "./Conversations";
 import CreateGroupForm from "../Group/CreateGroupForm";
 import LogoutButton from "./LogoutButton";
 import Modal from "../Modal/Modal";
+import useGetGroups from "../../hooks/useGetGroups";
+import useConversation from "../../zustand/useConversation";
 
 const Sidebar = () => {
   const [searchActive, setSearchActive] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showCreateGroupForm, setShowCreateGroupForm] = useState(false);
+  const { groups } = useGetGroups();
+  const { setSelectedConversation } = useConversation();
 
   const handleSearchClick = () => {
     setSearchActive(!searchActive);
@@ -22,6 +26,10 @@ const Sidebar = () => {
   const toggleCreateGroupForm = () => {
     setShowCreateGroupForm(!showCreateGroupForm);
   };
+
+  const handleSelectedGroup = (group) => {
+    setSelectedConversation(group)
+  }
 
   return (
     <div className="flex flex-col h-full w-full sm:w-1/4 bg-gray-800 text-white p-4">
@@ -46,6 +54,18 @@ const Sidebar = () => {
         </button>
         <div className="flex-1 overflow-y-auto">
           <Conversations />
+          <div className="mt-4">
+            <h2 className="text-lg font-bold mb-2">Groups</h2>
+            { groups.length > 0 ? (
+              groups.map((group) => (
+                <div key={group._id} onClick={() => handleSelectedGroup(group)} className="p-2 cursor-pointer hover:bg-gray-700 rounded">
+                  {group.name}
+                </div>
+              ))
+            ) : (
+              <p>No groups available</p>
+            ) }
+          </div>
         </div>
         <div className="mt-auto">
           <LogoutButton />
