@@ -4,7 +4,11 @@ import toast from "react-hot-toast";
 
 const useGetGroupMessages = () => {
   const [loading, setLoading] = useState(false);
-  const { messages, setMessages, selectedConversation } = useConversation();
+  const {
+    messages: groupMessages,
+    setMessages,
+    selectedConversation,
+  } = useConversation();
 
   useEffect(() => {
     const getMessages = async () => {
@@ -15,16 +19,20 @@ const useGetGroupMessages = () => {
         );
         const data = await res.json();
         if (data.error) throw new Error(data.error);
-        setMessages(data);
+        if (data && data.length > 0) {
+          setMessages(data);
+        } else {
+          setMessages([]);
+        }
       } catch (error) {
         toast.error(error.message);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
-    if(selectedConversation?._id) getMessages();
-  }, [selectedConversation?._id, setMessages]);
-  return {messages, loading}
+    if (selectedConversation?._id && selectedConversation.name) getMessages();
+  }, [selectedConversation?._id, selectedConversation.name, setMessages]);
+  return { groupMessages, loading };
 };
 
 export default useGetGroupMessages;
