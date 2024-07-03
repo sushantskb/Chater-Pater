@@ -1,9 +1,10 @@
 import Group from "../models/group.model.js";
 import Message from "../models/message.model.js";
+import { io } from "../socket/socket.js";
 
 export const createGroup = async (req, res) => {
   try {
-    const user = req.user._id
+    const user = req.user._id;
     const { name, members } = req.body;
     const newGroup = await Group.create({
       name,
@@ -42,6 +43,10 @@ export const sendGroupMessage = async (req, res) => {
     const group = await Group.findById(groupId);
     group.messages.push(newMessage._id);
     await group.save();
+
+    // emit the messages to the group
+    io.to(groupId).emit("receiverGroupMessages", newMessage);
+
     return res.status(200).json(newMessage);
   } catch (error) {
     console.log("Error in sending group message", error);
