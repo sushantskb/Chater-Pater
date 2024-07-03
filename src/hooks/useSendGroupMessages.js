@@ -6,7 +6,7 @@ const useSendGroupMessages = () => {
   const [loading, setLoading] = useState(false);
   const { messages, setMessages, selectedConversation } = useConversation();
 
-  const sendMessage = async (message) => {
+  const sendGroupMessage = async (message) => {
     setLoading(true);
     try {
       const res = await fetch(`api/groups/send/${selectedConversation._id}`, {
@@ -26,7 +26,7 @@ const useSendGroupMessages = () => {
     }
   };
 
-  return { sendMessage, loading }
+  return { sendGroupMessage, loading }
 };
 
 export default useSendGroupMessages;
