@@ -1,15 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useCreateGroup from "../../hooks/useCreateGroup";
 
 const CreateGroupForm = () => {
   const [groupName, setGroupName] = useState("");
   const [selectedMembers, setSelectedMembers] = useState([]);
+  const [members, setMembers] = useState([]);
+  const { createGroup, loading } = useCreateGroup();
 
-  const members = [
-    { _id: "1", username: "user1" },
-    { _id: "2", username: "user2" },
-    { _id: "3", username: "user3" },
-    { _id: "4", username: "user4" },
-  ];
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch("/api/users");
+        const data = await res.json();
+        if(data.error) throw new Error(data.error)
+        setMembers(data)
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    }
+    fetchUsers();
+  }, [])
 
   const handleSelectChange = (e) => {
     const selectedOptions = Array.from(e.target.selectedOptions, (option) => ({
@@ -28,10 +39,11 @@ const CreateGroupForm = () => {
     setSelectedMembers(selectedMembers.filter((member) => member._id !== memberId));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Group Name:", groupName);
-    console.log("Selected Members:", selectedMembers);
+    // console.log("Group Name:", groupName);
+    // console.log("Selected Members:", selectedMembers);
+    await createGroup(groupName, selectedMembers.map((member) => member._id))
     setGroupName("");
     setSelectedMembers([]);
   };
@@ -87,8 +99,8 @@ const CreateGroupForm = () => {
           </div>
         ))}
       </div>
-      <button type="submit" className="w-full p-2 rounded bg-blue-500 hover:bg-blue-600">
-        Create Group
+      <button type="submit" className="w-full p-2 rounded bg-blue-500 hover:bg-blue-600" disabled={loading}>
+        {loading ? "Creating..." : "Create Group"}
       </button>
     </form>
   );
