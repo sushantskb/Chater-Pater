@@ -8,6 +8,7 @@ import Modal from "../Modal/Modal";
 import useGetGroups from "../../hooks/useGetGroups";
 import useConversation from "../../zustand/useConversation";
 import { useAuthContext } from "../../context/AuthContext";
+import useDeleteGroup from "../../hooks/useDeleteGroup";
 
 const Sidebar = () => {
   const { authUser } = useAuthContext();
@@ -16,6 +17,7 @@ const Sidebar = () => {
   const [showCreateGroupForm, setShowCreateGroupForm] = useState(false);
   const { groups } = useGetGroups();
   const { setSelectedConversation } = useConversation();
+  const { deleteGroup } = useDeleteGroup();
 
   const handleSearchClick = () => {
     setSearchActive(!searchActive);
@@ -33,12 +35,19 @@ const Sidebar = () => {
     setSelectedConversation(group);
   };
 
+  const handleDelete = async (groupId) => {
+    await deleteGroup(groupId);
+    window.location.reload();
+  };
+
   return (
     <div className="flex flex-col w-full sm:w-1/4 bg-gray-800 text-white p-4">
       <div className="flex justify-between items-center mb-4">
         <div className="text-2xl font-bold">ChaterPater</div>
         <img
-          src={authUser.profilePic ? authUser.profilePic : "./assets/person.png"}
+          src={
+            authUser.profilePic ? authUser.profilePic : "./assets/person.png"
+          }
           alt="Logo"
           className="h-8 w-8"
         />
@@ -51,7 +60,10 @@ const Sidebar = () => {
           menuOpen ? "flex" : "hidden"
         } flex-col h-full overflow-hidden`}
       >
-        <Search searchActive={searchActive} handleSearchClick={handleSearchClick} />
+        <Search
+          searchActive={searchActive}
+          handleSearchClick={handleSearchClick}
+        />
         <button
           onClick={toggleCreateGroupForm}
           className="flex items-center bg-gray-700 p-2 rounded-full mb-4"
@@ -67,10 +79,20 @@ const Sidebar = () => {
               groups.map((group) => (
                 <div
                   key={group._id}
-                  onClick={() => handleSelectedGroup(group)}
-                  className="p-2 cursor-pointer hover:bg-gray-700 rounded"
+                  className="flex items-center justify-between p-2 hover:bg-gray-700 rounded"
                 >
-                  {group.name}
+                  <div
+                    onClick={() => handleSelectedGroup(group)}
+                    className="cursor-pointer"
+                  >
+                    {group.name}
+                  </div>
+                  <button
+                    className="btn btn-error btn-sm btn-outline"
+                    onClick={() => handleDelete(group._id)}
+                  >
+                    Delete
+                  </button>
                 </div>
               ))
             ) : (
