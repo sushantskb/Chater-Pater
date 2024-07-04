@@ -14,6 +14,6 @@ router.post("/create-group", protectRoute, createGroup);
 router.get("/", protectRoute, getGroups);
 router.post("/send/:id", protectRoute, sendGroupMessage);
 router.get("/messages/:id", protectRoute, getGroupMessages);
-router.get("/delete-group/:id", protectRoute, deleteGroup);
+router.delete("/delete-group/:id", protectRoute, deleteGroup);
 
 export default router;
