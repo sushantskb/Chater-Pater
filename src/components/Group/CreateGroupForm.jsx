@@ -1,26 +1,26 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import useCreateGroup from "../../hooks/useCreateGroup";
 
-const CreateGroupForm = () => {
+const CreateGroupForm = ({ onClose }) => {
   const [groupName, setGroupName] = useState("");
   const [selectedMembers, setSelectedMembers] = useState([]);
   const [members, setMembers] = useState([]);
   const { createGroup, loading } = useCreateGroup();
-
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const res = await fetch("/api/users");
         const data = await res.json();
-        if(data.error) throw new Error(data.error)
-        setMembers(data)
+        if (data.error) throw new Error(data.error);
+        setMembers(data);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
-    }
+    };
     fetchUsers();
-  }, [])
+  }, []);
 
   const handleSelectChange = (e) => {
     const selectedOptions = Array.from(e.target.selectedOptions, (option) => ({
@@ -36,16 +36,17 @@ const CreateGroupForm = () => {
   };
 
   const handleRemoveMember = (memberId) => {
-    setSelectedMembers(selectedMembers.filter((member) => member._id !== memberId));
+    setSelectedMembers(
+      selectedMembers.filter((member) => member._id !== memberId)
+    );
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log("Group Name:", groupName);
-    // console.log("Selected Members:", selectedMembers);
-    await createGroup(groupName, selectedMembers.map((member) => member._id))
+    await createGroup(groupName, selectedMembers.map((member) => member._id));
     setGroupName("");
     setSelectedMembers([]);
+    onClose();
   };
 
   return (
@@ -99,7 +100,11 @@ const CreateGroupForm = () => {
           </div>
         ))}
       </div>
-      <button type="submit" className="w-full p-2 rounded bg-blue-500 hover:bg-blue-600" disabled={loading}>
+      <button
+        type="submit"
+        className="w-full p-2 rounded bg-blue-500 hover:bg-blue-600"
+        disabled={loading}
+      >
         {loading ? "Creating..." : "Create Group"}
       </button>
     </form>

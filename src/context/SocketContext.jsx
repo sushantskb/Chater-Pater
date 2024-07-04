@@ -18,7 +18,8 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-      const socket = io("http://localhost:8000", {
+      const serverUrl = window.location.hostname === "localhost" ? "http://localhost:8000" : "http://192.168.0.172:8000";
+      const socket = io(serverUrl, {
         query: {
           userId: authUser._id,
         },

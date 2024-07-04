@@ -14,15 +14,15 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-black">
-      <div className="bg-black bg-opacity-50 p-12 rounded-lg shadow-lg w-1/3">
-        <h2 className="text-3xl font-bold text-center mb-6 text-white">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-black p-4">
+      <div className="bg-black bg-opacity-50 p-6 md:p-12 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-6 text-white">
           Login to{" "}
-          <span className="bg-gradient-to-r from-purple-700 to-blue-500  bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-purple-700 to-blue-500 bg-clip-text text-transparent">
             ChaterPater
           </span>
         </h2>
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
           <div className="flex flex-col">
             <label
               htmlFor="username"
@@ -57,19 +57,17 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <p>
-            {"Don't"} have an account ?{" "}
+          <p className="text-sm">
+            {"Don't"} have an account?{" "}
             <Link to="/signup">
               <span className="text-secondary">Signup</span>
             </Link>
           </p>
           <button
             type="submit"
-            className="btn bg-gradient-to-r from-purple-600 to-blue-500 text-white py-2 rounded-md hover:from-blue-700 hover:to-purple-600 transition duration-300"
+            className="btn w-full bg-gradient-to-r from-purple-600 to-blue-500 text-white py-2 rounded-md hover:from-blue-700 hover:to-purple-600 transition duration-300"
           >
-            { 
-              !loading ? "Login" : <span className="loading loading-ring loading-xs"></span>
-            }
+            {!loading ? "Login" : <span className="loading loading-ring loading-xs"></span>}
           </button>
         </form>
       </div>
