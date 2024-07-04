@@ -30,7 +30,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/groups", groupMessageRouter);
 
-server.listen(PORT, (err) => {
+server.listen(PORT, '0.0.0.0', (err) => {
   connectToMongoDB();
   if (err) {
     console.log("Error in starting Node.js server");
