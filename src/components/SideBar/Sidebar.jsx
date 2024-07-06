@@ -79,7 +79,7 @@ const Sidebar = () => {
               groups.map((group) => (
                 <div
                   key={group._id}
-                  className="flex items-center justify-between p-2 hover:bg-gray-700 rounded"
+                  className="flex items-center justify-between p-2 rounded"
                 >
                   <div
                     onClick={() => handleSelectedGroup(group)}

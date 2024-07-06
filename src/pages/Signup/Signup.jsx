@@ -14,14 +14,64 @@ const Signup = () => {
   });
 
   const { loading, signup } = useSignup();
+  const [ isLoading, setIsLoading ] = useState(false);
 
   const handleCheckbox = (gender) => {
     setInputs({ ...inputs, gender });
   };
 
+  const handleFileInput = (e) => {
+    const { name, files } = e.target;
+    setInputs({ ...inputs, [name]: files[0] });
+  };
+
+  const uploadToCloudinary = async (file) => {
+    if (!file) return "";
+    setIsLoading(true);
+    try {
+      const image = new FormData();
+      image.append("file", file);
+      image.append("upload_preset", "chatter-patter");
+      image.append("cloud_name", "dbgght6ld");
+
+      const resposne = await fetch(
+        "https://api.cloudinary.com/v1_1/dbgght6ld/image/upload",
+        {
+          method: "POST",
+          body: image,
+        }
+      );
+
+      const data = await resposne.json();
+      // console.log("Cloudinary resposne data", data);
+
+      if (!resposne.ok) {
+        throw new Error(data.error.message || "Image upload failed");
+      }
+      setIsLoading(false);
+      return data.secure_url;
+    } catch (error) {
+      console.error("Error uploading image to Cloudinary:", error);
+      throw error;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signup(inputs);
+    let profilePicUrl = "";
+    if (inputs.profilePic) {
+      profilePicUrl = await uploadToCloudinary(inputs.profilePic);
+    }
+    const newInputs = {
+      fullName: inputs.fullName,
+      username: inputs.username,
+      password: inputs.password,
+      confirmPassword: inputs.confirmPassword,
+      gender: inputs.gender,
+      profilePic: profilePicUrl ? profilePicUrl : "",
+    };
+    console.log("new inputs", newInputs);
+    await signup(newInputs);
   };
 
   return (
@@ -115,10 +165,7 @@ const Signup = () => {
               type="file"
               className="file-input file-input-bordered file-input-primary w-full max-w-xs"
               name="profilePic"
-              value={inputs.profilePic}
-              onChange={(e) =>
-                setInputs({ ...inputs, profilePic: e.target.value })
-              }
+              onChange={handleFileInput}
             />
           </div>
           <GenderCheckBox
@@ -135,10 +182,10 @@ const Signup = () => {
             type="submit"
             className="btn w-full bg-gradient-to-r from-purple-600 to-blue-500 text-white py-2 rounded-md hover:from-blue-700 hover:to-purple-600 transition duration-300"
           >
-            {!loading ? (
-              "Sign Up"
-            ) : (
+            {loading && isLoading ? (
               <span className="loading loading-ring loading-xs"></span>
+            ) : (
+              "Sign Up"
             )}
           </button>
         </form>

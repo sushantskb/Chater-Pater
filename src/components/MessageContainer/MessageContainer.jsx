@@ -17,7 +17,21 @@ const MessageContainer = () => {
       ) : (
         <div className="backgroundImage flex flex-col h-full w-full sm:w-3/4 bg-gray-900 text-white p-4">
           <div className="flex justify-between items-center mb-4">
-            <div className="text-2xl font-bold">{selectedConversation.name ? selectedConversation.name : selectedConversation.fullName}</div>
+            <div className="w-10 h-10 rounded-full overflow-hidden">
+              <img
+                className="w-full h-full object-cover"
+                src={
+                  selectedConversation.profilePic
+                    ? selectedConversation.profilePic
+                    : "./assets/person.png"
+                }
+              />
+            </div>
+            <div className="text-2xl font-bold">
+              {selectedConversation.name
+                ? selectedConversation.name
+                : selectedConversation.fullName}
+            </div>
           </div>
           <div className="flex-grow overflow-y-auto">
             <Messages />
@@ -38,7 +52,11 @@ const NoChatSelected = () => {
       <div className="flex-grow flex flex-col items-center justify-center space-y-6 p-4 bg-gray-800 rounded-lg">
         <div className="text-center">
           <div className="text-6xl mb-4">
-            <span role="img" aria-label="chat" className="flex justify-center items-center">
+            <span
+              role="img"
+              aria-label="chat"
+              className="flex justify-center items-center"
+            >
               <FiMessageCircle />
             </span>
           </div>
@@ -58,6 +76,5 @@ const NoChatSelected = () => {
     </div>
   );
 };
-
 
 export default MessageContainer;
