@@ -23,3 +23,30 @@ export const getUsersForGroupCreation = async (req, res) => {
     res.status(500).json({error: "Internal server error"})
   }
 };
+
+export const editUserProfile = async (req, res) => {
+  const { fullName, username, profilePic, ...rest } = req.body;
+
+  const userId = req.user._id;
+
+  try {
+    const user = await User.findById(userId);
+    if(!user) {
+      return res.status(404).json({message: "User not found"});
+    }
+
+    // Update user fields
+    if (fullName) user.name = fullName;
+    if(username) user.username = username;
+    if(profilePic) user.profilePic = profilePic
+
+    Object.assign(user, rest);
+
+    await user.save();
+    const updatedUser = user._doc;
+    return res.status(200).json({message: "User Updated", updatedUser})
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+}
