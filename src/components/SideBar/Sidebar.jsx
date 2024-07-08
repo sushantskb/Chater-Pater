@@ -9,6 +9,7 @@ import useGetGroups from "../../hooks/useGetGroups";
 import useConversation from "../../zustand/useConversation";
 import { useAuthContext } from "../../context/AuthContext";
 import useDeleteGroup from "../../hooks/useDeleteGroup";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const { authUser } = useAuthContext();
@@ -44,13 +45,15 @@ const Sidebar = () => {
     <div className="flex flex-col w-full sm:w-1/4 bg-gray-800 text-white p-4">
       <div className="flex justify-between items-center mb-4">
         <div className="text-2xl font-bold">ChaterPater</div>
-        <img
-          src={
-            authUser.profilePic ? authUser.profilePic : "./assets/person.png"
-          }
-          alt="Logo"
-          className="h-8 w-8"
-        />
+        <Link to="/edit">
+          <img
+            src={
+              authUser.profilePic ? authUser.profilePic : "./assets/person.png"
+            }
+            alt="Logo"
+            className="h-8 w-8 rounded-full mr-2"
+          />
+        </Link>
         <button className="sm:hidden" onClick={handleMenuToggle}>
           <FaBars />
         </button>
