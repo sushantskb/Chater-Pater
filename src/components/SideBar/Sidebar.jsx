@@ -10,15 +10,23 @@ import useConversation from "../../zustand/useConversation";
 import { useAuthContext } from "../../context/AuthContext";
 import useDeleteGroup from "../../hooks/useDeleteGroup";
 import { Link } from "react-router-dom";
+import MemberDetails from "../Group/MemberDetails";
+import useGetMembers from "../../hooks/useGetMembers";
 
 const Sidebar = () => {
   const { authUser } = useAuthContext();
   const [searchActive, setSearchActive] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showCreateGroupForm, setShowCreateGroupForm] = useState(false);
+  const [showMemberDetails, setMemberDetails] = useState(false);
+
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
+
   const { groups } = useGetGroups();
   const { setSelectedConversation } = useConversation();
   const { deleteGroup } = useDeleteGroup();
+
+  const { members } = useGetMembers(selectedGroupId);
 
   const handleSearchClick = () => {
     setSearchActive(!searchActive);
@@ -30,6 +38,16 @@ const Sidebar = () => {
 
   const toggleCreateGroupForm = () => {
     setShowCreateGroupForm(!showCreateGroupForm);
+  };
+
+  const toggleMemberDetails = (groupId) => {
+    setSelectedGroupId(groupId);
+    setMemberDetails(!showMemberDetails);
+  };
+
+  const closeMemberDetails = () => {
+    setMemberDetails(false);
+    setSelectedGroupId(null);
   };
 
   const handleSelectedGroup = (group) => {
@@ -91,6 +109,12 @@ const Sidebar = () => {
                     {group.name}
                   </div>
                   <button
+                    className="btn btn-warning btn-sm btn-outline ml-20"
+                    onClick={() => toggleMemberDetails(group._id)}
+                  >
+                    Details
+                  </button>
+                  <button
                     className="btn btn-error btn-sm btn-outline"
                     onClick={() => handleDelete(group._id)}
                   >
@@ -110,6 +134,10 @@ const Sidebar = () => {
 
       <Modal isOpen={showCreateGroupForm} onClose={toggleCreateGroupForm}>
         <CreateGroupForm onClose={toggleCreateGroupForm} />
+      </Modal>
+
+      <Modal isOpen={showMemberDetails} onClose={closeMemberDetails}>
+        <MemberDetails groupId={selectedGroupId} members={members} onClose={closeMemberDetails} />
       </Modal>
     </div>
   );
