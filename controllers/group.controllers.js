@@ -69,9 +69,9 @@ export const getGroupMessages = async (req, res) => {
     // console.log(group);
 
     const messages = group.messages.map((message) => ({
-      message: message.message, 
-      senderId: message.senderId._id, 
-      fullName: message.senderId.fullName, 
+      message: message.message,
+      senderId: message.senderId._id,
+      fullName: message.senderId.fullName,
       timestamp: message.createdAt,
     }));
 
@@ -99,7 +99,9 @@ export const deleteGroup = async (req, res) => {
 
     // Check if the user is a member of the group
     if (!group.members.includes(userId)) {
-      return res.status(403).json({ error: "You are not authorized to delete this group" });
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to delete this group" });
     }
 
     // Delete all messages associated with the group
@@ -115,3 +117,49 @@ export const deleteGroup = async (req, res) => {
   }
 };
 
+export const getGroupMembers = async (req, res) => {
+  try {
+    const { id: groupId } = req.params;
+    const group = await Group.findById(groupId).populate({
+      path: "members",
+      select: "fullName profilePic",
+    });
+
+    if (!group) {
+      return res.status(404).json({ error: "Group not found" });
+    }
+
+    const members = group.members.map((member) => ({
+      id: member._id,
+      fullName: member.fullName,
+      profilePic: member.profilePic,
+    }));
+
+    res.status(200).json(members);
+  } catch (error) {
+    console.log("Error in fetching group members", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const removeMember = async (req, res) => {
+  try {
+    const { groupId, memberId } = req.params;
+    const group = await Group.findById(groupId);
+    if (!group) {
+      return res.status(404).json({ error: "Group not found" });
+    }
+
+    if (!group.members.includes(memberId)) {
+      return res.status(404).json({ error: "Members not found in the group" });
+    }
+
+    group.members.pull(memberId);
+    await group.save();
+
+    res.status(200).json({ message: "Member removed successfully" });
+  } catch (error) {
+    console.log("Error in removing member from group", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
