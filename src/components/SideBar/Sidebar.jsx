@@ -26,7 +26,7 @@ const Sidebar = () => {
   const { setSelectedConversation } = useConversation();
   const { deleteGroup } = useDeleteGroup();
 
-  const { members } = useGetMembers(selectedGroupId);
+  const { members, creator } = useGetMembers(selectedGroupId);
 
   const handleSearchClick = () => {
     setSearchActive(!searchActive);
@@ -137,7 +137,7 @@ const Sidebar = () => {
       </Modal>
 
       <Modal isOpen={showMemberDetails} onClose={closeMemberDetails}>
-        <MemberDetails groupId={selectedGroupId} members={members} onClose={closeMemberDetails} />
+        <MemberDetails creator={creator} groupId={selectedGroupId} members={members} onClose={closeMemberDetails} />
       </Modal>
     </div>
   );

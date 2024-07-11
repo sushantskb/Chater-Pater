@@ -2,20 +2,27 @@
 
 import { useEffect, useState } from "react";
 import useRemoveMembers from "../../hooks/useRemoveMembers";
+import { useAuthContext } from "../../context/AuthContext";
 
-const MemberDetails = ({groupId, members: initialMembers }) => {
+const MemberDetails = ({ groupId, members: initialMembers, creator }) => {
   const [members, setMembers] = useState(initialMembers);
-  const { removeMembers } = useRemoveMembers()
+  const { removeMembers } = useRemoveMembers();
+  const { authUser } = useAuthContext();
+
+  console.log("Equal", authUser._id === creator);
+  console.log("Equal", authUser._id, creator);
 
   useEffect(() => {
-    setMembers(initialMembers)
-  }, [initialMembers])
+    setMembers(initialMembers);
+  }, [initialMembers]);
 
   const handleRemove = async (groupId, memberId) => {
     // Function to handle member removal
-    const removeMembersId = await removeMembers(groupId ,memberId)
-    if(removeMembers){
-      setMembers((prevMembers) => prevMembers.filter(member => member.id !== removeMembersId))
+    const removeMembersId = await removeMembers(groupId, memberId);
+    if (removeMembers) {
+      setMembers((prevMembers) =>
+        prevMembers.filter((member) => member.id !== removeMembersId)
+      );
     }
   };
 
@@ -31,16 +38,26 @@ const MemberDetails = ({groupId, members: initialMembers }) => {
             />
             <div className="ml-4">
               <h3 className="text-lg font-semibold text-white">
-                {member.fullName}
+                {authUser._id === member.id ? "You" : member.fullName}{" "}
+                {member.id === creator ? (
+                  <div className="badge badge-accent badge-outline">Admin</div>
+                ) : (
+                  ""
+                )}
               </h3>
             </div>
           </div>
-          <button
-            className="btn btn-error btn-sm"
-            onClick={() => handleRemove(groupId, member.id)}
-          >
-            Remove
-          </button>
+
+          {authUser._id === member.id && authUser._id === creator ?  (
+            ""
+          ) : (
+            <button
+              className="btn btn-error btn-sm"
+              onClick={() => handleRemove(groupId, member.id)}
+            >
+              Remove
+            </button>
+          )}
         </div>
       ))}
     </div>

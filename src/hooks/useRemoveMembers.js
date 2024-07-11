@@ -13,16 +13,23 @@ const useRemoveMembers = () => {
         }
       );
       const data = await res.json();
-      toast.success(data.message, {
-        className: "btn btn-success btn-outline",
-      });
+      console.log(data);
+      if (data.error) {
+        toast.error("You are not the admin", {
+          className: "btn btn-warning btn-outline",
+        });
+      } else {
+        toast.success(data.message, {
+          className: "btn btn-success btn-outline",
+        });
+      }
     } catch (e) {
-      toast.error(e.message, {
+      toast.error(e, {
         className: "btn-error btn-outline",
       });
     }
   };
-  return { removeMembers }
+  return { removeMembers };
 };
 
 export default useRemoveMembers;

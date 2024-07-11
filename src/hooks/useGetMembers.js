@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 const useGetMembers = (groupId) => {
   const [loading, setLoading] = useState(false);
   const [members, setMembers] = useState([]);
+  const [creator, setCreator] = useState("");
 
   useEffect(() => {
     const getMembers = async () => {
@@ -16,7 +17,8 @@ const useGetMembers = (groupId) => {
           throw new Error(data.error);
         }
 
-        setMembers(data);
+        setCreator(data.creator);
+        setMembers(data.members);
       } catch (error) {
         toast.error(error.message, {
           className: "btn btn-error btn-outline",
@@ -30,7 +32,7 @@ const useGetMembers = (groupId) => {
     }
   }, [groupId]);
 
-  return { loading, members, setMembers };
+  return { loading, members, setMembers, creator };
 };
 
 export default useGetMembers;
