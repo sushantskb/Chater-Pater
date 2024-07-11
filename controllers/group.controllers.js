@@ -120,13 +120,15 @@ export const deleteGroup = async (req, res) => {
 export const getGroupMembers = async (req, res) => {
   try {
     const { id: groupId } = req.params;
-    const group = await Group.findById(groupId).populate({
-      path: "members",
-      select: "fullName profilePic",
-    }).populate({
-      path: "creator",
-      select: "_id"
-    });
+    const group = await Group.findById(groupId)
+      .populate({
+        path: "members",
+        select: "fullName profilePic",
+      })
+      .populate({
+        path: "creator",
+        select: "_id",
+      });
 
     if (!group) {
       return res.status(404).json({ error: "Group not found" });
@@ -138,7 +140,7 @@ export const getGroupMembers = async (req, res) => {
       profilePic: member.profilePic,
     }));
 
-    res.status(200).json({creator: group.creator._id ,members});
+    res.status(200).json({ creator: group.creator._id, members });
   } catch (error) {
     console.log("Error in fetching group members", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -155,11 +157,9 @@ export const removeMember = async (req, res) => {
     }
 
     if (group.creator.toString() !== userId.toString()) {
-      return res
-        .status(403)
-        .json({
-          error: "You are not authorized to remove the members from this group",
-        });
+      return res.status(403).json({
+        error: "You are not authorized to remove the members from this group",
+      });
     }
 
     if (!group.members.includes(memberId)) {
@@ -167,6 +167,32 @@ export const removeMember = async (req, res) => {
     }
 
     group.members.pull(memberId);
+    await group.save();
+
+    res.status(200).json({ message: "Member removed successfully" });
+  } catch (error) {
+    console.log("Error in removing member from group", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const addMember = async (req, res) => {
+  try {
+    const { groupId, memberId } = req.params;
+    const userId = req.user._id;
+    const group = await Group.findById(groupId);
+    if (!group) {
+      return res.status(404).json({ error: "Group not found" });
+    }
+    if (group.creator.toString() !== userId.toString()) {
+      return res.status(403).json({
+        error: "You are not authorized to remove the members from this group",
+      });
+    }
+    if (!group.members.includes(memberId)) {
+      return res.status(404).json({ error: "Members not found in the group" });
+    }
+    group.members.push(memberId);
     await group.save();
 
     res.status(200).json({ message: "Member removed successfully" });

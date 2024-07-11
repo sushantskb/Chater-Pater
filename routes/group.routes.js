@@ -1,6 +1,7 @@
 import express from "express";
 import protectRoute from "../middleware/protectRoute.js";
 import {
+  addMember,
   createGroup,
   deleteGroup,
   getGroupMembers,
@@ -19,5 +20,6 @@ router.get("/messages/:id", protectRoute, getGroupMessages);
 router.get("/members/:id", protectRoute, getGroupMembers);
 router.delete("/delete-group/:id", protectRoute, deleteGroup);
 router.delete("/remove-member/:groupId/:memberId", protectRoute, removeMember);
+router.post("/add-member/:groupId/:memberId", protectRoute, addMember);
 
 export default router;
