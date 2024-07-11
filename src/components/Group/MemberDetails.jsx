@@ -8,23 +8,42 @@ const MemberDetails = ({ groupId, members: initialMembers, creator }) => {
   const [members, setMembers] = useState(initialMembers);
   const { removeMembers } = useRemoveMembers();
   const { authUser } = useAuthContext();
-
-  console.log("Equal", authUser._id === creator);
-  console.log("Equal", authUser._id, creator);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [membersList, setMemberList] = useState([]);
 
   useEffect(() => {
     setMembers(initialMembers);
   }, [initialMembers]);
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch("/api/users");
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        setMemberList(data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+    fetchUsers();
+  }, []);
+
   const handleRemove = async (groupId, memberId) => {
-    // Function to handle member removal
     const removeMembersId = await removeMembers(groupId, memberId);
-    if (removeMembers) {
+    if (removeMembersId) {
       setMembers((prevMembers) =>
         prevMembers.filter((member) => member.id !== removeMembersId)
       );
     }
   };
+  const handleToggle = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  let filteredMember = membersList.filter(
+    (member) => !members.some((member2) => member._id === member2.id)
+  );
 
   return (
     <div className="p-4 bg-gray-800 rounded-lg shadow-lg">
@@ -47,7 +66,6 @@ const MemberDetails = ({ groupId, members: initialMembers, creator }) => {
               </h3>
             </div>
           </div>
-
           {authUser._id === creator && authUser._id !== member.id && (
             <button
               className="btn btn-error btn-sm"
@@ -58,6 +76,41 @@ const MemberDetails = ({ groupId, members: initialMembers, creator }) => {
           )}
         </div>
       ))}
+      {authUser._id === creator && (
+        <button className="btn btn-primary btn-sm mt-4" onClick={handleToggle}>
+          Add Member
+        </button>
+      )}
+      {isModalOpen && (
+        <div className="modal" open={isModalOpen}>
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Add New Member</h3>
+            <ul>
+              {filteredMember.map((member) => (
+                <li
+                  key={member.id}
+                  className="flex items-center justify-between mb-2"
+                >
+                  <div className="flex items-center">
+                    <img
+                      src={member.profilePic}
+                      alt={`${member.fullName}'s profile`}
+                      className="w-8 h-8 rounded-full"
+                    />
+                    <div className="ml-2">{member.fullName}</div>
+                  </div>
+                  <button className="btn btn-success btn-sm">Add</button>
+                </li>
+              ))}
+            </ul>
+            <div className="modal-action">
+              <button className="btn" onClick={handleToggle}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
