@@ -10,6 +10,7 @@ export const createGroup = async (req, res) => {
     const newGroup = await Group.create({
       name,
       members: [user, ...members],
+      creator: user,
     });
     res.status(201).json(newGroup);
   } catch (error) {
@@ -97,8 +98,7 @@ export const deleteGroup = async (req, res) => {
       return res.status(404).json({ error: "Group not found" });
     }
 
-    // Check if the user is a member of the group
-    if (!group.members.includes(userId)) {
+    if (group.creator.toString() !== userId.toString()) {
       return res
         .status(403)
         .json({ error: "You are not authorized to delete this group" });
@@ -123,6 +123,9 @@ export const getGroupMembers = async (req, res) => {
     const group = await Group.findById(groupId).populate({
       path: "members",
       select: "fullName profilePic",
+    }).populate({
+      path: "creator",
+      select: "_id"
     });
 
     if (!group) {
@@ -135,7 +138,7 @@ export const getGroupMembers = async (req, res) => {
       profilePic: member.profilePic,
     }));
 
-    res.status(200).json(members);
+    res.status(200).json({creator: group.creator._id ,members});
   } catch (error) {
     console.log("Error in fetching group members", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -145,9 +148,18 @@ export const getGroupMembers = async (req, res) => {
 export const removeMember = async (req, res) => {
   try {
     const { groupId, memberId } = req.params;
+    const userId = req.user._id;
     const group = await Group.findById(groupId);
     if (!group) {
       return res.status(404).json({ error: "Group not found" });
+    }
+
+    if (group.creator.toString() !== userId.toString()) {
+      return res
+        .status(403)
+        .json({
+          error: "You are not authorized to remove the members from this group",
+        });
     }
 
     if (!group.members.includes(memberId)) {

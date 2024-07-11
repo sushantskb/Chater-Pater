@@ -12,6 +12,11 @@ const groupSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+    creator: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     messages: [
       {
         type: mongoose.Schema.Types.ObjectId,
