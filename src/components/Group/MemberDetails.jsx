@@ -48,9 +48,7 @@ const MemberDetails = ({ groupId, members: initialMembers, creator }) => {
             </div>
           </div>
 
-          {authUser._id === member.id && authUser._id === creator ?  (
-            ""
-          ) : (
+          {authUser._id === creator && authUser._id !== member.id && (
             <button
               className="btn btn-error btn-sm"
               onClick={() => handleRemove(groupId, member.id)}
