@@ -189,15 +189,12 @@ export const addMember = async (req, res) => {
         error: "You are not authorized to remove the members from this group",
       });
     }
-    if (!group.members.includes(memberId)) {
-      return res.status(404).json({ error: "Members not found in the group" });
-    }
     group.members.push(memberId);
     await group.save();
 
-    res.status(200).json({ message: "Member removed successfully" });
+    res.status(200).json({ message: "Member added successfully" });
   } catch (error) {
-    console.log("Error in removing member from group", error);
+    console.log("Error in adding member from group", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
