@@ -11,8 +11,11 @@ const Message = ({ message }) => {
   const chatClassName = fromMe ? "flex-row-reverse" : "flex-row";
   const name = fromMe ? null : selectedConversation?.fullName;
   const profilePic = fromMe ? null : selectedConversation?.profilePic;
-  const chatColor = fromMe ? "bg-gradient-to-r from-blue-500 to-purple-400 text-white" : "bg-gradient-to-r from-yellow-500 to-green-400 text-white";
+  const chatColor = fromMe
+    ? "bg-gradient-to-r from-blue-500 to-purple-400 text-white"
+    : "bg-gradient-to-r from-yellow-500 to-green-400 text-white";
 
+  console.log(selectedConversation);
   const [shouldShake, setShouldShake] = useState(false);
 
   useEffect(() => {
@@ -30,12 +33,30 @@ const Message = ({ message }) => {
       {!fromMe && (
         <div className="chat-image avatar mt-1">
           <div className="w-10 h-10 rounded-full overflow-hidden">
-            <img src={profilePic ? profilePic : "./assets/person.png"} alt="Profile" className="w-full h-full object-cover" />
+            <img
+              src={
+                profilePic
+                  ? profilePic
+                  : message.profilePic
+                  ? message.profilePic
+                  : "./assets/person.png"
+              }
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       )}
-      <div className={`max-w-md rounded-lg px-4 py-2 ${chatColor} ${shouldShake ? "shake-animation" : ""}`}>
-        {!fromMe && <p className="text-xs mb-1 text-black font-semibold">{name ? name : message.fullName}</p>}
+      <div
+        className={`max-w-md rounded-lg px-4 py-2 ${chatColor} ${
+          shouldShake ? "shake-animation" : ""
+        }`}
+      >
+        {!fromMe && (
+          <p className="text-xs mb-1 text-black font-semibold">
+            {name ? name : message.fullName}
+          </p>
+        )}
         <p className="text-m font-bold">{message.message}</p>
       </div>
     </div>

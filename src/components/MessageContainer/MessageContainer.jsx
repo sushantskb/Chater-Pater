@@ -10,6 +10,21 @@ const MessageContainer = () => {
     return setSelectedConversation(null);
   }, [setSelectedConversation]);
 
+  const getImageSource = (conversation) => {
+    if (conversation.name) {
+      if (conversation.groupImage) {
+        return conversation.groupImage;
+      } else {
+        return "./assets/person.png";
+      }
+    } else {
+      if (conversation.profilePic) {
+        return conversation.profilePic;
+      } else {
+        return "./assets/person.png";
+      }
+    }
+  };
   return (
     <>
       {!selectedConversation ? (
@@ -20,11 +35,7 @@ const MessageContainer = () => {
             <div className="w-10 h-10 rounded-full overflow-hidden">
               <img
                 className="w-full h-full object-cover"
-                src={
-                  selectedConversation.profilePic
-                    ? selectedConversation.profilePic
-                    : "./assets/person.png"
-                }
+                src={getImageSource(selectedConversation)}
               />
             </div>
             <div className="text-2xl font-bold">

@@ -106,6 +106,12 @@ const Sidebar = () => {
                     onClick={() => handleSelectedGroup(group)}
                     className="cursor-pointer"
                   >
+                    <img src={group.groupImage ? group.groupImage :"./assets/person.png"} alt="" className="h-8 w-8 rounded-full mr-2" />
+                  </div>
+                  <div
+                    onClick={() => handleSelectedGroup(group)}
+                    className="cursor-pointer"
+                  >
                     {group.name}
                   </div>
                   <button

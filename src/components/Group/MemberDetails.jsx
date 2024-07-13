@@ -3,13 +3,16 @@
 import { useEffect, useState } from "react";
 import useRemoveMembers from "../../hooks/useRemoveMembers";
 import { useAuthContext } from "../../context/AuthContext";
+import useAddMember from "../../hooks/useAddMember";
 
 const MemberDetails = ({ groupId, members: initialMembers, creator }) => {
   const [members, setMembers] = useState(initialMembers);
   const { removeMembers } = useRemoveMembers();
+  const { addMembers } = useAddMember();
   const { authUser } = useAuthContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [membersList, setMemberList] = useState([]);
+  const [added, setAdd] = useState(false);
 
   useEffect(() => {
     setMembers(initialMembers);
@@ -45,6 +48,14 @@ const MemberDetails = ({ groupId, members: initialMembers, creator }) => {
     (member) => !members.some((member2) => member._id === member2.id)
   );
 
+  const handleAddMember = async (groupId, memberId) => {
+    const added = addMembers(groupId, memberId);
+    if (added) {
+      setAdd(true);
+    }
+  };
+
+  console.log("filtered", filteredMember);
   return (
     <div className="p-4 bg-gray-800 rounded-lg shadow-lg">
       {members.map((member) => (
@@ -99,7 +110,22 @@ const MemberDetails = ({ groupId, members: initialMembers, creator }) => {
                     />
                     <div className="ml-2">{member.fullName}</div>
                   </div>
-                  <button className="btn btn-success btn-sm">Add</button>
+                  <button
+                    className="btn btn-success btn-sm"
+                    onClick={() => handleAddMember(groupId, member._id)}
+                  >
+                    {added ? (
+                      <button
+                        disabled
+                        className="btn btn-disabled btn-sm"
+                        onClick={() => handleAddMember(groupId, member._id)}
+                      >
+                        Added
+                      </button>
+                    ) : (
+                      "Add"
+                    )}
+                  </button>
                 </li>
               ))}
             </ul>

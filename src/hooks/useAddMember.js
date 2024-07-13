@@ -11,7 +11,6 @@ const useAddMember = () => {
       });
 
       const data = await res.json();
-      console.log(data);
       if (data.error) {
         toast.error("You are not the admin", {
           className: "btn btn-warning btn-outline",
@@ -21,6 +20,7 @@ const useAddMember = () => {
           className: "btn btn-success btn-outline",
         });
       }
+      return data;
     } catch (error) {
       toast.error(error.message, {
         className: "btn-error btn-outline",

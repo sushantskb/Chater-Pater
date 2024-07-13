@@ -13,7 +13,6 @@ const useRemoveMembers = () => {
         }
       );
       const data = await res.json();
-      console.log(data);
       if (data.error) {
         toast.error("You are not the admin", {
           className: "btn btn-warning btn-outline",
@@ -23,6 +22,7 @@ const useRemoveMembers = () => {
           className: "btn btn-success btn-outline",
         });
       }
+      return data
     } catch (e) {
       toast.error(e, {
         className: "btn-error btn-outline",

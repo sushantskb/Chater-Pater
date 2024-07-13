@@ -6,7 +6,7 @@ const useCreateGroup = () => {
   const [loading, setLoading] = useState(false);
   const { groups, setGroups } = useConversation();
 
-  const createGroup = async (groupName, members) => {
+  const createGroup = async (groupName, members, groupImage) => {
     setLoading(true);
     try {
       const res = await fetch("/api/groups/create-group", {
@@ -14,7 +14,7 @@ const useCreateGroup = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: groupName, members }),
+        body: JSON.stringify({ name: groupName, members, groupImage }),
       });
 
       const data = await res.json();
