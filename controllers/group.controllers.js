@@ -6,11 +6,12 @@ import { io } from "../socket/socket.js";
 export const createGroup = async (req, res) => {
   try {
     const user = req.user._id;
-    const { name, members } = req.body;
+    const { name, members, groupImage } = req.body;
     const newGroup = await Group.create({
       name,
       members: [user, ...members],
       creator: user,
+      groupImage
     });
     res.status(201).json(newGroup);
   } catch (error) {
@@ -63,7 +64,7 @@ export const getGroupMessages = async (req, res) => {
       path: "messages",
       populate: {
         path: "senderId",
-        select: "fullName",
+        select: "fullName profilePic",
       },
     });
 
@@ -73,6 +74,7 @@ export const getGroupMessages = async (req, res) => {
       message: message.message,
       senderId: message.senderId._id,
       fullName: message.senderId.fullName,
+      profilePic: message.senderId.profilePic,
       timestamp: message.createdAt,
     }));
 
