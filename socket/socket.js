@@ -12,7 +12,7 @@ const io = new Server(server, {
   },
 });
 
-app.set("io", io)
+app.set("io", io);
 
 export const getReceiverSocketId = (receiverId) => {
   return userSocketMap[receiverId];
