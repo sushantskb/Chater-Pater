@@ -9,7 +9,7 @@ import connectToMongoDB from "./db/connectToMongoDB.js";
 import cors from "cors";
 import axios from "axios";
 
-import {app, server} from "./socket/socket.js"
+import { app, server } from "./socket/socket.js";
 dotenv.config();
 const PORT = process.env.PORT || 6969;
 
@@ -26,13 +26,18 @@ app.get("/keep-alive", (req, res) => {
 // middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://chater-pater.netlify.app"],
+    credentials: true,
+  })
+);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/groups", groupMessageRouter);
 
-server.listen(PORT, '0.0.0.0', (err) => {
+server.listen(PORT, "0.0.0.0", (err) => {
   connectToMongoDB();
   if (err) {
     console.log("Error in starting Node.js server");
