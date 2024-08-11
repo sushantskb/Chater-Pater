@@ -2,7 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
 
-const API = import.meta.env.VITE_API
+const API = import.meta.env.VITE_API;
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const { setAuthUser } = useAuthContext();
@@ -11,10 +11,12 @@ const useLogin = () => {
     setLoading(true);
     try {
       const res = await fetch(`${API}/api/auth/login`, {
-        mode: "no-cors",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
         },
         body: JSON.stringify({ username, password }),
         credentials: "include", // this is the important part
