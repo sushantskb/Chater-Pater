@@ -26,6 +26,11 @@ app.get("/keep-alive", (req, res) => {
 // middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: ["http://localhost:5173", "https://chater-pater.netlify.app"],
+  credentials: true, // Allow credentials (cookies)
+}));
+
 app.options("*", cors({
   origin: ["http://localhost:5173", "https://chater-pater.netlify.app"],
   credentials: true
