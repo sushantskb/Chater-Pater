@@ -6,6 +6,7 @@ import userRoutes from "./routes/user.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import groupMessageRouter from "./routes/group.routes.js";
 import connectToMongoDB from "./db/connectToMongoDB.js";
+import cors from "cors";
 import axios from "axios";
 
 import {app, server} from "./socket/socket.js"
@@ -25,6 +26,7 @@ app.get("/keep-alive", (req, res) => {
 // middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/messages", messageRoutes);
