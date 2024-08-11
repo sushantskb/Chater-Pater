@@ -12,7 +12,9 @@ const useGetGroups = () => {
     const getGroups = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${API}/api/groups`);
+        const res = await fetch(`${API}/api/groups`, {
+          credentials: 'include'
+        });
         const data = await res.json();
         if (data.error) throw new Error(data.error);
         setGroups(data);

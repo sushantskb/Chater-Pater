@@ -1,7 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-const API = import.meta.env.VITE_API
+const API = import.meta.env.VITE_API;
 const useEditProfile = () => {
   const [loading, setLoading] = useState(false);
   const editProfile = async ({ fullName, username, profilePic, gender }) => {
@@ -16,6 +16,7 @@ const useEditProfile = () => {
           gender,
           profilePic,
         }),
+        credentials: "include",
       });
       const data = await res.json();
       if (data.error) {

@@ -11,6 +11,7 @@ const useDeleteGroup = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include'
       });
       const data = await res.json();
       toast.success(data.message, {

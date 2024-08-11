@@ -10,6 +10,7 @@ const useAddMember = () => {
           header: {
             "Content-Type": "application/json",
           },
+          credentials: 'include'
         }
       );
 

@@ -15,6 +15,7 @@ const useCreateGroup = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ name: groupName, members, groupImage }),
+        credentials: 'include'
       });
 
       const data = await res.json();

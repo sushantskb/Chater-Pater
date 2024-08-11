@@ -16,7 +16,10 @@ const useGetGroupMessages = () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `${API}/api/groups/messages/${selectedConversation._id}`
+          `${API}/api/groups/messages/${selectedConversation._id}`, 
+          {
+            credentials: 'include'
+          }
         );
         const data = await res.json();
         if (data.error) throw new Error(data.error);
