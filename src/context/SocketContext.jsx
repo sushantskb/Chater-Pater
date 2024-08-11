@@ -18,7 +18,10 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-      const serverUrl = window.location.hostname === "localhost" ? "http://localhost:9000" : "http://192.168.2.172:9000";
+      const serverUrl =
+        window.location.hostname === "localhost"
+          ? "http://localhost:9000"
+          : "https://chater-pater-backend.onrender.com";
       const socket = io(serverUrl, {
         query: {
           userId: authUser._id,

@@ -1,12 +1,12 @@
 import toast from "react-hot-toast";
 
-
+const API = import.meta.env.VITE_API
 
 const useRemoveMembers = () => {
   const removeMembers = async (groupId, memberId) => {
     try {
       const res = await fetch(
-        `/api/groups/remove-member/${groupId}/${memberId}`,
+        `${API}/api/groups/remove-member/${groupId}/${memberId}`,
         {
           method: "DELETE",
           headers: {

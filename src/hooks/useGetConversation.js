@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 
 import { useEffect, useState } from "react";
-
+const API = import.meta.env.VITE_API
 const useGetConversations = () => {
   const [loading, setLoading] = useState(false);
   const [conversations, setConversations] = useState([]);
@@ -9,7 +9,7 @@ const useGetConversations = () => {
     const getConversations = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/users`, {
+        const res = await fetch(`${API}/api/users`, {
           method: "GET",
         });
         const data = await res.json();

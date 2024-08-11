@@ -1,13 +1,13 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-
+const API = import.meta.env.VITE_API
 const useEditProfile = () => {
   const [loading, setLoading] = useState(false);
   const editProfile = async ({ fullName, username, profilePic, gender }) => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/users/edit-profile`, {
+      const res = await fetch(`${API}/api/users/edit-profile`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

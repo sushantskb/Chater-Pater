@@ -1,10 +1,10 @@
 import toast from "react-hot-toast";
-
+const API = import.meta.env.VITE_API
 const useAddMember = () => {
   const addMembers = async (groupId, memberId) => {
     try {
       const res = await fetch(
-        `/api/groups/add-member/${groupId}/${memberId}`,
+        `${API}/api/groups/add-member/${groupId}/${memberId}`,
         {
           method: "POST",
           header: {

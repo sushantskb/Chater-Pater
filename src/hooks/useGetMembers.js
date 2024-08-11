@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
+const API = import.meta.env.VITE_API
 
 const useGetMembers = (groupId) => {
   const [loading, setLoading] = useState(false);
@@ -11,7 +11,7 @@ const useGetMembers = (groupId) => {
     const getMembers = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/groups/members/${groupId}`);
+        const res = await fetch(`${API}/api/groups/members/${groupId}`);
 
         const data = await res.json();
         if (data.error) {

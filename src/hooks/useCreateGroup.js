@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useConversation from "../zustand/useConversation";
 import toast from "react-hot-toast";
-
+const API = import.meta.env.VITE_API
 const useCreateGroup = () => {
   const [loading, setLoading] = useState(false);
   const { groups, setGroups } = useConversation();
@@ -9,7 +9,7 @@ const useCreateGroup = () => {
   const createGroup = async (groupName, members, groupImage) => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/groups/create-group`, {
+      const res = await fetch(`${API}/api/groups/create-group`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
