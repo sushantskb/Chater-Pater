@@ -29,9 +29,10 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: ["http://localhost:5173", "https://chater-pater.netlify.app"],
-    credentials: true,
+    credentials: true, // Allows cookies to be sent
   })
 );
+app.options("*", cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/messages", messageRoutes);
