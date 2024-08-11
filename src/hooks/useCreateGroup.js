@@ -9,7 +9,7 @@ const useCreateGroup = () => {
   const createGroup = async (groupName, members, groupImage) => {
     setLoading(true);
     try {
-      const res = await fetch("/api/groups/create-group", {
+      const res = await fetch(`/api/groups/create-group`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

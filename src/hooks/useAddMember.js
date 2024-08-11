@@ -3,12 +3,15 @@ import toast from "react-hot-toast";
 const useAddMember = () => {
   const addMembers = async (groupId, memberId) => {
     try {
-      const res = await fetch(`api/groups/add-member/${groupId}/${memberId}`, {
-        method: "POST",
-        header: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        `/api/groups/add-member/${groupId}/${memberId}`,
+        {
+          method: "POST",
+          header: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await res.json();
       if (data.error) {
@@ -28,7 +31,7 @@ const useAddMember = () => {
     }
   };
 
-  return { addMembers }
+  return { addMembers };
 };
 
 export default useAddMember;

@@ -7,7 +7,9 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:9000",
+        target: "https://chater-pater-backend.onrender.com",
+        changeOrigin: true,
+        secure: false,
       },
     },
   },

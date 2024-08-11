@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
+
 const useGetMembers = (groupId) => {
   const [loading, setLoading] = useState(false);
   const [members, setMembers] = useState([]);
@@ -10,7 +11,7 @@ const useGetMembers = (groupId) => {
     const getMembers = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`api/groups/members/${groupId}`);
+        const res = await fetch(`/api/groups/members/${groupId}`);
 
         const data = await res.json();
         if (data.error) {

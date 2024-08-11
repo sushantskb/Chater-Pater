@@ -1,10 +1,12 @@
 import toast from "react-hot-toast";
 
+
+
 const useRemoveMembers = () => {
   const removeMembers = async (groupId, memberId) => {
     try {
       const res = await fetch(
-        `api/groups/remove-member/${groupId}/${memberId}`,
+        `/api/groups/remove-member/${groupId}/${memberId}`,
         {
           method: "DELETE",
           headers: {

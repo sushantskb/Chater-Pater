@@ -9,6 +9,7 @@ import EditProfile from "./pages/EditProfile/EditProfile";
 
 function App() {
   const { authUser } = useAuthContext();
+  
   return (
     <>
       <Routes>
