@@ -14,9 +14,6 @@ const useLogin = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
         },
         body: JSON.stringify({ username, password }),
         credentials: "include", // this is the important part

@@ -3,7 +3,7 @@ import useConversation from "../zustand/useConversation";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-const API = import.meta.env.VITE_API
+const API = import.meta.env.VITE_API;
 const useGetGroups = () => {
   const [loading, setLoading] = useState(false);
   const { groups, setGroups } = useConversation();
@@ -13,7 +13,7 @@ const useGetGroups = () => {
       setLoading(true);
       try {
         const res = await fetch(`${API}/api/groups`, {
-          credentials: 'include'
+          credentials: "include"
         });
         const data = await res.json();
         if (data.error) throw new Error(data.error);
