@@ -11,6 +11,7 @@ const useLogin = () => {
     setLoading(true);
     try {
       const res = await fetch(`${API}/api/auth/login`, {
+        mode: "no-cors"
         method: "POST",
         headers: {
           "Content-Type": "application/json",
