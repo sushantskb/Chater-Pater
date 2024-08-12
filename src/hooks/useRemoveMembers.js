@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 
-const API = import.meta.env.VITE_API
+const API = import.meta.env.VITE_API;
 
 const useRemoveMembers = () => {
   const removeMembers = async (groupId, memberId) => {
@@ -11,8 +11,11 @@ const useRemoveMembers = () => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
           },
-          credentials: 'include'
+          credentials: "include",
         }
       );
       const data = await res.json();
@@ -25,7 +28,7 @@ const useRemoveMembers = () => {
           className: "btn btn-success btn-outline",
         });
       }
-      return data
+      return data;
     } catch (e) {
       toast.error(e, {
         className: "btn-error btn-outline",

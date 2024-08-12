@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useConversation from "../zustand/useConversation";
 import toast from "react-hot-toast";
 
-const API = import.meta.env.VITE_API
+const API = import.meta.env.VITE_API;
 const useGetGroupMessages = () => {
   const [loading, setLoading] = useState(false);
   const {
@@ -16,9 +16,14 @@ const useGetGroupMessages = () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `${API}/api/groups/messages/${selectedConversation._id}`, 
+          `${API}/api/groups/messages/${selectedConversation._id}`,
           {
-            credentials: 'include'
+            credentials: "include",
+            headers: {
+              "Access-Control-Allow-Headers": "Content-Type",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
+            },
           }
         );
         const data = await res.json();

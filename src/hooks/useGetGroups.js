@@ -13,7 +13,12 @@ const useGetGroups = () => {
       setLoading(true);
       try {
         const res = await fetch(`${API}/api/groups`, {
-          credentials: "include"
+          credentials: "include",
+          headers: {
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
+          },
         });
         const data = await res.json();
         if (data.error) throw new Error(data.error);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-const API = import.meta.env.VITE_API
+const API = import.meta.env.VITE_API;
 
 const useGetMembers = (groupId) => {
   const [loading, setLoading] = useState(false);
@@ -12,7 +12,12 @@ const useGetMembers = (groupId) => {
       setLoading(true);
       try {
         const res = await fetch(`${API}/api/groups/members/${groupId}`, {
-          credentials: 'include'
+          credentials: "include",
+          headers: {
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
+          },
         });
 
         const data = await res.json();

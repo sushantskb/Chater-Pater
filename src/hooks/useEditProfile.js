@@ -9,7 +9,12 @@ const useEditProfile = () => {
     try {
       const res = await fetch(`${API}/api/users/edit-profile`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
+        },
         body: JSON.stringify({
           fullName,
           username,

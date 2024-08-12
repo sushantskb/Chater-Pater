@@ -14,6 +14,11 @@ const useGetMessages = () => {
           `${API}/api/messages/${selectedConversation._id}`,
           {
             credentials: "include",
+            headers: {
+              "Access-Control-Allow-Headers": "Content-Type",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
+            },
           }
         );
         const data = await res.json();
