@@ -31,9 +31,6 @@ app.use(cors({
   credentials: true, // Allow credentials (cookies)
 }));
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*")
-}) 
 
 app.options("*", cors({
   origin: ["http://localhost:5173", "https://chater-pater.netlify.app"],
