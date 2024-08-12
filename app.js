@@ -32,12 +32,6 @@ app.use(cors({
 }));
 
 
-app.options("*", cors({
-  origin: ["http://localhost:5173", "https://chater-pater.netlify.app"],
-  credentials: true
-}));
-
-
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/messages", messageRoutes);
