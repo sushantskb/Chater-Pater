@@ -62,7 +62,9 @@ const Sidebar = () => {
   return (
     <div className="flex flex-col w-full sm:w-1/4 bg-gray-800 text-white p-4">
       <div className="flex justify-between items-center mb-4">
-        <div className="text-2xl font-bold">ChaterPater</div>
+        <div className="text-2xl font-bold bg-gradient-to-r from-purple-700 to-blue-600 bg-clip-text text-transparent">
+          ChaterPater
+        </div>
         <Link to="/edit">
           <img
             src={
@@ -79,16 +81,14 @@ const Sidebar = () => {
       <div
         className={`sm:flex ${
           menuOpen ? "flex" : "hidden"
-        } flex-col h-full overflow-hidden`}
-      >
+        } flex-col h-full overflow-hidden`}>
         <Search
           searchActive={searchActive}
           handleSearchClick={handleSearchClick}
         />
         <button
           onClick={toggleCreateGroupForm}
-          className="flex items-center bg-gray-700 p-2 rounded-full mb-4"
-        >
+          className="flex items-center bg-gray-700 p-2 rounded-full mb-4">
           <FaPlus className="mr-2" />
           Create Group
         </button>
@@ -100,30 +100,33 @@ const Sidebar = () => {
               groups.map((group) => (
                 <div
                   key={group._id}
-                  className="flex items-center justify-between p-2 rounded"
-                >
+                  className="flex items-center justify-between p-2 rounded">
                   <div
                     onClick={() => handleSelectedGroup(group)}
-                    className="cursor-pointer"
-                  >
-                    <img src={group.groupImage ? group.groupImage :"./assets/person.png"} alt="" className="h-8 w-8 rounded-full mr-2" />
+                    className="cursor-pointer">
+                    <img
+                      src={
+                        group.groupImage
+                          ? group.groupImage
+                          : "./assets/person.png"
+                      }
+                      alt=""
+                      className="h-8 w-8 rounded-full mr-2"
+                    />
                   </div>
                   <div
                     onClick={() => handleSelectedGroup(group)}
-                    className="cursor-pointer"
-                  >
+                    className="cursor-pointer">
                     {group.name}
                   </div>
                   <button
                     className="btn btn-warning btn-sm btn-outline ml-20"
-                    onClick={() => toggleMemberDetails(group._id)}
-                  >
+                    onClick={() => toggleMemberDetails(group._id)}>
                     Details
                   </button>
                   <button
                     className="btn btn-error btn-sm btn-outline"
-                    onClick={() => handleDelete(group._id)}
-                  >
+                    onClick={() => handleDelete(group._id)}>
                     Delete
                   </button>
                 </div>
@@ -143,7 +146,12 @@ const Sidebar = () => {
       </Modal>
 
       <Modal isOpen={showMemberDetails} onClose={closeMemberDetails}>
-        <MemberDetails creator={creator} groupId={selectedGroupId} members={members} onClose={closeMemberDetails} />
+        <MemberDetails
+          creator={creator}
+          groupId={selectedGroupId}
+          members={members}
+          onClose={closeMemberDetails}
+        />
       </Modal>
     </div>
   );

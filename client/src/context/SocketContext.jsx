@@ -22,7 +22,7 @@ export const SocketContextProvider = ({ children }) => {
         window.location.hostname === "localhost"
           ? "http://localhost:9000"
           : "https://chater-pater-backend.onrender.com";
-      const socket = io(serverUrl, {
+      const socket = io("http://localhost:9000", {
         query: {
           userId: authUser._id,
         },
