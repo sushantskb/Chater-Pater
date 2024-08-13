@@ -1,20 +1,17 @@
 import toast from "react-hot-toast";
-const API = import.meta.env.VITE_API
+
 const useAddMember = () => {
   const addMembers = async (groupId, memberId) => {
     try {
-      const res = await fetch(
-        `${API}/api/groups/add-member/${groupId}/${memberId}`,
-        {
-          method: "POST",
-          header: {
-            "Content-Type": "application/json",
-          },
-          credentials: 'include'
-        }
-      );
+      const res = await fetch(`api/groups/add-member/${groupId}/${memberId}`, {
+        method: "POST",
+        header: {
+          "Content-Type": "application/json",
+        },
+      });
 
       const data = await res.json();
+      console.log(data);
       if (data.error) {
         toast.error("You are not the admin", {
           className: "btn btn-warning btn-outline",
@@ -24,7 +21,6 @@ const useAddMember = () => {
           className: "btn btn-success btn-outline",
         });
       }
-      return data;
     } catch (error) {
       toast.error(error.message, {
         className: "btn-error btn-outline",
@@ -32,7 +28,7 @@ const useAddMember = () => {
     }
   };
 
-  return { addMembers };
+  return { addMembers }
 };
 
 export default useAddMember;

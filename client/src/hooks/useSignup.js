@@ -1,7 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
-const API = import.meta.env.VITE_API;
 
 const useSignup = () => {
   const [loading, setLoading] = useState(false);
@@ -19,7 +18,7 @@ const useSignup = () => {
       username,
       password,
       confirmPassword,
-      gender,
+      gender
     });
 
     if (!success) {
@@ -28,23 +27,17 @@ const useSignup = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/auth/signup`, {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           fullName,
           username,
           password,
           confirmPassword,
           gender,
-          profilePic,
+          profilePic
         }),
-        credentials: "include",
       });
 
       const data = await res.json();
@@ -77,7 +70,7 @@ function handleInputErrors({
   username,
   password,
   confirmPassword,
-  gender,
+  gender
 }) {
   if (!fullName || !username || !password || !confirmPassword || !gender) {
     toast.error("Please fill in all fields");

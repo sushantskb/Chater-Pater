@@ -37,7 +37,7 @@ body {
 
 
 .backgroundImage {
-  background-image: url("./assets/chatBg.jpg");
+  background-image: url("/assets/chatBg.jpg");
   background-size: cover;
 }
 
