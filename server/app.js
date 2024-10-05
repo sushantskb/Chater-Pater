@@ -24,6 +24,10 @@ app.use("/api/groups", groupMessageRouter);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
+app.get("/health", (req, res) => {
+  return res.send("<h1>App is running fine!!!</h1>");
+});
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
@@ -33,3 +37,18 @@ server.listen(PORT, "0.0.0.0", (err) => {
 
   console.log(`Server is running on port ${PORT}`);
 });
+
+const hitAPI = async (req, res) => {
+  try {
+    const res = await fetch("https://chater-pater.onrender.com/health", {
+      method: "GET",
+    });
+    if (res.status === "200") {
+      console.log("API has been hit");
+    }
+  } catch (error) {
+    console.log("error");
+  }
+};
+
+setInterval(hitAPI, 30000);
