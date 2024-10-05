@@ -40,10 +40,11 @@ server.listen(PORT, "0.0.0.0", (err) => {
 
 const hitAPI = async (req, res) => {
   try {
-    const res = await fetch("https://chater-pater.onrender.com/health", {
+    const response = await fetch("https://chater-pater.onrender.com/health", {
       method: "GET",
     });
-    if (res.status === "200") {
+
+    if (response.status === 200) {
       console.log("API has been hit");
     }
   } catch (error) {
@@ -51,4 +52,4 @@ const hitAPI = async (req, res) => {
   }
 };
 
-setInterval(hitAPI, 30000);
+setInterval(hitAPI, 120000);
