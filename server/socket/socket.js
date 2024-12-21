@@ -10,7 +10,7 @@ const io = new Server(server, {
     origin: [
       "http://localhost:5173",
       "http://192.168.2.172:5173",
-      "https://chater-pater.onrender.com",
+      "https://chater-pater.up.railway.app",
     ],
     methods: ["GET", "POST"],
   },
