@@ -37,19 +37,3 @@ server.listen(PORT, "0.0.0.0", (err) => {
 
   console.log(`Server is running on port ${PORT}`);
 });
-
-const hitAPI = async (req, res) => {
-  try {
-    const response = await fetch("https://chater-pater.onrender.com/health", {
-      method: "GET",
-    });
-
-    if (response.status === 200) {
-      console.log("API has been hit");
-    }
-  } catch (error) {
-    console.log("error");
-  }
-};
-
-setInterval(hitAPI, 120000);
