@@ -22,7 +22,7 @@ export const SocketContextProvider = ({ children }) => {
       //   window.location.hostname === "localhost"
       //     ? "http://localhost:9000"
       //     : "https://chater-pater-backend.onrender.com";
-      const socket = io("https://chater-pater.up.railway.app", {
+      const socket = io("https://college-fest-2024-production.up.railway.app", {
         query: {
           userId: authUser._id,
         },
