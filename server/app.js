@@ -7,6 +7,7 @@ import messageRoutes from "./routes/message.routes.js";
 import groupMessageRouter from "./routes/group.routes.js";
 import path from "path";
 import connectToMongoDB from "./db/connectToMongoDB.js";
+import axios from "axios";
 
 import { app, server } from "./socket/socket.js";
 dotenv.config();
@@ -27,6 +28,17 @@ app.use(express.static(path.join(__dirname, "/client/dist")));
 app.get("/health", (req, res) => {
   return res.send("<h1>App is running fine!!!</h1>");
 });
+
+const hitAPI = async => () => {
+  try {
+    await axios.get("https://chater-pater-7160.onrender.com/health");
+    console.log("API hit successfully");
+  } catch (error) {
+    console.error("Error hitting API:", error);
+  }
+}
+
+setInterval(hitAPI, 5 * 60 * 1000); // Hit the API every 5 minutes
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
