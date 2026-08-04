@@ -29,7 +29,7 @@ app.get("/health", (req, res) => {
   return res.send("<h1>App is running fine!!!</h1>");
 });
 
-const hitAPI = async => () => {
+const hitAPI = async () => {
   try {
     await axios.get("https://chater-pater-7160.onrender.com/health");
     console.log("API hit successfully");
